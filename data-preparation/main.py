@@ -1,6 +1,9 @@
 import pandas as pd;
+# import pdb;
 
 def norm_arr(arr):
+    if arr.dtype.kind != 'f':
+      return arr
     mean = arr.mean()
     std = arr.std()
 
@@ -16,8 +19,8 @@ def norm_df(df):
 
     return result
 
-df = pd.read_csv('../titanic.csv')
+dat = pd.read_csv('../titanic.csv')
 
-df1 = df[df['Age'].notnull()]
+df1 = dat[dat['Age'].notnull()]
 
-print(norm_arr(df1['Age']))
+print(norm_df(df1))
