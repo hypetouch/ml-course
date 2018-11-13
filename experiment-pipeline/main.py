@@ -67,7 +67,7 @@ def CV(df, classifier, nfold, norm=True):
         classifier.fit(X_train, y_train)
         y_pred = classifier.predict(X_test)
 
-        acc.append(accuracy(y_test, y_pred))
+        acc.append(accuracy(y_test, y_pred)) # Homework - replace accuracy with BCR
 
     return acc
 '''
@@ -114,9 +114,6 @@ print(accuracy(y_test, y_pred))
 
 logreg = LogisticRegression()
 rf = RandomForestClassifier()
-
-#print(CV(df, logreg, 10))
-#print(CV(df, rf, 10))
 
 log_res = CV(df, logreg, 10)
 rf_res = CV(df, rf, 10)
