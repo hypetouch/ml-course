@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+
 names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
 
 df = pd.read_csv('indians-diabetes.csv', names=names)
@@ -23,7 +25,7 @@ def stratified_split(y, proportion=0.8):
 
     return train_inds, test_inds
 
-train, test = stratified_split(df)
+train, test = stratified_split(df['class'])
 
 X_train = df.iloc[train, 0:8]
 X_test = df.iloc[test, 0:8]
@@ -31,7 +33,15 @@ X_test = df.iloc[test, 0:8]
 y_train = df['class'][train]
 y_test = df['class'][test]
 
-#plt.show()
+logreg = LogisticRegression()
 
-#print(X_train)
+logreg.fit(X_train,y_train)
 
+def accuracy(y_test, y_pred):
+    return 1 - sum(abs(y_test - y_pred)/len(y_test))
+
+
+
+y_pred=logreg.predict(X_test)
+
+print(accuracy(y_test, y_pred))
