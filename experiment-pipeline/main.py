@@ -44,7 +44,33 @@ def norm_df(df):
 
     return result
 
+def accuracy(y_test, y_pred):
+    return 1 - sum(abs(y_test - y_pred)/len(y_test))
 
+
+def CV(df, classifier, nfold, norm=True):
+    acc = []
+    for i in range(nfold):
+        y = df['class']
+        train, test = stratified_split(y)
+
+        if norm:
+            X_train = norm_df(df.iloc[train, 0:8])
+            X_test = norm_df(df.iloc[test, 0:8])
+        else:
+            X_train = df.iloc[train, 0:8]
+            X_test = df.iloc[test, 0:8]
+
+        y_train = y[train]
+        y_test = y[test]
+
+        classifier.fit(X_train, y_train)
+        y_pred = classifier.predict(X_test)
+
+        acc.append(accuracy(y_test, y_pred))
+
+    return acc
+'''
 X_train = norm_df(df.iloc[train, 0:8])
 X_test = norm_df(df.iloc[test, 0:8])
 
@@ -55,9 +81,32 @@ logreg = LogisticRegression()
 
 logreg.fit(X_train,y_train)
 
-def accuracy(y_test, y_pred):
-    return 1 - sum(abs(y_test - y_pred)/len(y_test))
-
 y_pred=logreg.predict(X_test)
 
 print(accuracy(y_test, y_pred))
+'''
+
+'''
+X_train = df.iloc[train, 0:8]
+X_test = df.iloc[test, 0:8]
+
+y_train = df['class'][train]
+y_test = df['class'][test]
+
+rf = RandomForestClassifier()
+rf.fit(X_train, y_train)
+y_pred = rf.predict(X_test)
+print(accuracy(y_test, y_pred))
+'''
+
+X_train = norm_df(df.iloc[train, 0:8])
+X_test = norm_df(df.iloc[test, 0:8])
+
+y_train = df['class'][train]
+y_test = df['class'][test]
+
+rf = RandomForestClassifier()
+rf.fit(X_train, y_train)
+y_pred = rf.predict(X_test)
+print(accuracy(y_test, y_pred))
+
