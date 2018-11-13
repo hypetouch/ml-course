@@ -99,6 +99,7 @@ y_pred = rf.predict(X_test)
 print(accuracy(y_test, y_pred))
 '''
 
+'''
 X_train = norm_df(df.iloc[train, 0:8])
 X_test = norm_df(df.iloc[test, 0:8])
 
@@ -109,4 +110,24 @@ rf = RandomForestClassifier()
 rf.fit(X_train, y_train)
 y_pred = rf.predict(X_test)
 print(accuracy(y_test, y_pred))
+'''
+
+logreg = LogisticRegression()
+rf = RandomForestClassifier()
+
+#print(CV(df, logreg, 10))
+#print(CV(df, rf, 10))
+
+log_res = CV(df, logreg, 10)
+rf_res = CV(df, rf, 10)
+
+print(np.array(log_res).mean())
+print(np.array(rf_res).mean())
+
+
+log_res = CV(df, logreg, 10, norm=False)
+rf_res = CV(df, rf, 10, norm=False)
+
+print(np.array(log_res).mean())
+print(np.array(rf_res).mean())
 
